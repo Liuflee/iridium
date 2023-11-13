@@ -56,4 +56,37 @@ public class RegistroPropiedades {
             }
         }
     }
-}
+        
+        
+        public void eliminarPropiedad(int codPropiedad) {
+            
+            Connection cnx = null;
+        try {
+            Conexion myConex = new Conexion();
+            cnx = myConex.getConexion();
+            
+            String sql = "DELETE FROM propiedades WHERE cod_propiedad = ?";
+
+            try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+                statement.setInt(1, codPropiedad);
+                statement.executeUpdate();
+            } catch(Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }  finally {
+            try {
+                if (cnx != null && !cnx.isClosed()) {
+                    cnx.close(); // Cierra la conexión a la base de datos
+                    System.out.println("Conexión cerrada.");
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar la conexión: " + ex.getMessage());
+            }
+        }
+          
+            
+
+        }}

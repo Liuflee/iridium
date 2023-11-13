@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sumir/source/repos/iridium/src/view/ModificarVentana.java</file>
             <file>file:/C:/Users/Sumir/source/repos/iridium/src/view/VentanaPrincipal.java</file>
+            <file>file:/C:/Users/Sumir/source/repos/iridium/src/model/Vendedor.java</file>
             <file>file:/C:/Users/Sumir/source/repos/iridium/src/view/AgregarVentana.java</file>
             <file>file:/C:/Users/Sumir/source/repos/iridium/src/controller/RegistroPropiedades.java</file>
-            <file>file:/C:/Users/Sumir/source/repos/iridium/src/controller/RegistroCliente.java</file>
+            <file>file:/C:/Users/Sumir/source/repos/iridium/src/view/Eliminar.java</file>
+            <file>file:/C:/Users/Sumir/source/repos/iridium/src/controller/RegistroVendedor.java</file>
             <file>file:/C:/Users/Sumir/source/repos/iridium/src/model/Propiedad.java</file>
-            <file>file:/C:/Users/Sumir/source/repos/iridium/src/model/Cliente.java</file>
             <file>file:/C:/Users/Sumir/source/repos/iridium/src/bd/Conexion.java</file>
         </group>
     </open-files>

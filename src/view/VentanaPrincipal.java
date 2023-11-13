@@ -4,6 +4,7 @@
  */
 package view;
 import bd.Conexion;
+import controller.RegistroPropiedades;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
+        actualizar();
     }
 
     /**
@@ -38,12 +40,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePropiedades = new javax.swing.JTable();
+        btnEliminarSelected = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAgregar = new javax.swing.JMenu();
         mniAgregarCasa = new javax.swing.JMenuItem();
         mniAgregarDpto = new javax.swing.JMenuItem();
         menuModificar = new javax.swing.JMenu();
         menuEliminar = new javax.swing.JMenu();
+        mnuiEliminar = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenu();
         probarConexion = new javax.swing.JMenu();
 
@@ -91,7 +95,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Nombre", "Tipo", "Habitaciones", "M2", "Precio", "Dirección", "Vendedor"
+                "Codigo", "Nombre", "Tipo", "Habitaciones", "M2", "Precio", "Dirección", "Vendedor(a)"
             }
         ) {
             Class[] types = new Class [] {
@@ -103,6 +107,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tablePropiedades);
+
+        btnEliminarSelected.setText("Eliminar");
+        btnEliminarSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSelectedActionPerformed(evt);
+            }
+        });
 
         menuAgregar.setText("Añadir");
 
@@ -128,6 +139,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuModificar);
 
         menuEliminar.setText("Eliminar");
+        menuEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEliminarActionPerformed(evt);
+            }
+        });
+
+        mnuiEliminar.setText("Eliminar por codigo");
+        mnuiEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiEliminarActionPerformed(evt);
+            }
+        });
+        menuEliminar.add(mnuiEliminar);
+
         jMenuBar1.add(menuEliminar);
 
         menuSalir.setText("Salir");
@@ -153,9 +178,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(11, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEliminarSelected)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)))
                 .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
@@ -164,13 +191,42 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarSelected)
+                .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void actualizar() {
+                
+        // Esta query es la que devuelve los datos para la tabla
+        String sql = "SELECT p.cod_propiedad, p.nombre_propiedad, p.nro_habitaciones, p.metros_cuadrados, p.precio, p.direccion, v.nombre_vendedor FROM propiedades p JOIN vendedor v ON (p.rut_vendedor = v.rut);";
+        try{
+            Conexion miConex = new Conexion();
+            Connection cnx = miConex.getConexion();
+            PreparedStatement pst = cnx.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) tablePropiedades.getModel();
+            model.setRowCount(0);
+             
+            while(rs.next()) {
+                model.addRow(new Object[]{rs.getInt(1), rs.getString(2), "", rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7)}); 
+                //ACA VAN LOS DATOS EL INDICE INDICA LA POSICION EN LA QUERY 
+            }
+            
+            miConex.cerrarConexion(cnx);
+            
+        }catch(Exception ex){
+            System.out.println("Error: "+ex.getMessage());
+        }
+        
+    }
+    
     private void mniAgregarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarCasaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mniAgregarCasaActionPerformed
@@ -187,38 +243,39 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mniAgregarDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarDptoActionPerformed
         // TODO add your handling code here:
-        AgregarVentana ventanaAdd = new AgregarVentana();
-        ventanaAdd.setVisible(true);
+        AgregarVentana ventanaAgregar = new AgregarVentana(this);
+        int x = getX() + (getWidth() - ventanaAgregar.getWidth()) / 2;
+        int y = getY() + (getHeight() - ventanaAgregar.getHeight()) / 2;
+
+        ventanaAgregar.setLocation(x, y);
+        ventanaAgregar.setVisible(true);
+        ventanaAgregar.setVisible(true);
     }//GEN-LAST:event_mniAgregarDptoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here: 
-        
-        // Esta query es la que devuelve los datos para la tabla
-        String sql = "SELECT p.cod_propiedad, p.nombre_propiedad, p.nro_habitaciones, p.metros_cuadrados, p.precio, p.direccion, v.nombre_vendedor FROM propiedades p JOIN vendedor v ON (p.rut_vendedor = v.rut);";
-        try{
-            Conexion miConex = new Conexion();
-            Connection cnx = miConex.getConexion();
-            PreparedStatement pst = cnx.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            
-            DefaultTableModel model = (DefaultTableModel) tablePropiedades.getModel();
-            
-            model.setRowCount(0);
-             
-            while(rs.next()) {
-                model.addRow(new Object[]{rs.getInt(1), rs.getString(2), "", rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7)}); 
-                //ACA VAN LOS DATOS EL INDICE INDICA LA POSICION EN LA QUERY
-            }
-            
-        }catch(Exception ex){
-            System.out.println("Error: "+ex.getMessage());
-        }
-        
-        
-  
-        
+        actualizar();  
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void mnuiEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiEliminarActionPerformed
+        // TODO add your handling code here:
+        Eliminar eliminar = new Eliminar();
+        eliminar.setVisible(true);
+    }//GEN-LAST:event_mnuiEliminarActionPerformed
+
+    private void menuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEliminarActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_menuEliminarActionPerformed
+
+    private void btnEliminarSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSelectedActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tablePropiedades.getSelectedRow();
+        int codSeleccionado = (int) tablePropiedades.getValueAt(filaSeleccionada, 0);
+        RegistroPropiedades registro = new RegistroPropiedades();
+        registro.eliminarPropiedad(codSeleccionado);
+        btnActualizarActionPerformed(evt);
+        
+    }//GEN-LAST:event_btnEliminarSelectedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -259,6 +316,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminarSelected;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
@@ -269,6 +327,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuSalir;
     private javax.swing.JMenuItem mniAgregarCasa;
     private javax.swing.JMenuItem mniAgregarDpto;
+    private javax.swing.JMenuItem mnuiEliminar;
     private javax.swing.JMenu probarConexion;
     private javax.swing.JTable tablePropiedades;
     private javax.swing.JTextField txtfBusqueda;
