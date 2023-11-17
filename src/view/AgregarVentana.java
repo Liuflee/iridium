@@ -17,13 +17,14 @@ import model.Vendedor;
  */
 public class AgregarVentana extends javax.swing.JFrame {
     private VentanaPrincipal ventPrincipal;
+    private String tipoPropiedad;
     /**
      * Creates new form Principal
      */
-    public AgregarVentana(VentanaPrincipal ventPrincipal) {
+    public AgregarVentana(VentanaPrincipal ventPrincipal, String tipoPropiedad) {
+        this.tipoPropiedad = tipoPropiedad;
         this.ventPrincipal = ventPrincipal; 
         initComponents();
-        int codVendedor = 1;
     }
     
 
@@ -181,70 +182,57 @@ public class AgregarVentana extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        
-    if(!txtfNombrePropiedad.getText().trim().isBlank()) {
-        if(!txtfDireccion.getText().trim().isBlank()) {
-            if(!txtfHabitaciones.getText().trim().isBlank()) {
-                if(!txtfPrecio.getText().trim().isBlank()) {
-                    if(!txtfMetros.getText().trim().isBlank()) {
-                        if(!txtfNombreVendedor.getText().trim().isBlank()) {
-                            if(!txtfRut.getText().trim().isBlank()) {
-                                if(txtfNombreVendedor.getText().trim().matches("^[A-Za-z ]+$")) {
-                                    String nombrePropiedad = txtfNombrePropiedad.getText();
-                                    String direccion = txtfDireccion.getText();
-                                    int habitaciones = Integer.parseInt(txtfHabitaciones.getText());
-                                    int precio = Integer.parseInt(txtfPrecio.getText());
-                                    int metrosCuadrados = Integer.parseInt(txtfMetros.getText());
-
-                                    String nombreVendedor = txtfNombreVendedor.getText();
-                                    int rutVendedor = Integer.parseInt(txtfRut.getText());
-
-
-                                    Vendedor vendedor = new Vendedor();
-                                    vendedor.setNombre(nombreVendedor);
-                                    vendedor.setRut(rutVendedor);
-
-                                    Propiedad propiedad = new Propiedad();
-                                    propiedad.setNombrePropiedad(nombrePropiedad);
-                                    propiedad.setDireccion(direccion);
-                                    propiedad.setHabitaciones(habitaciones);
-                                    propiedad.setMetrosCuadrados(metrosCuadrados);
-                                    propiedad.setPrecio(precio);
-                                    propiedad.setVendedor(vendedor);
-
-                                    RegistroVendedor registroVendedor = new RegistroVendedor();
-                                    registroVendedor.agregarVendedor(vendedor);
-
-                                    RegistroPropiedades registroPropiedad = new RegistroPropiedades();
-                                    registroPropiedad.agregarPropiedad(propiedad);
-                                    ventPrincipal.actualizar();
-                                    JOptionPane.showMessageDialog(rootPane, "Propiedad añadida con exito", "Exito", JOptionPane.PLAIN_MESSAGE);
-                                    dispose();
-                                } else {
-                                    JOptionPane.showMessageDialog(rootPane, "El nombre solo puede contener letras y espacios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-                                }  
-                            } else {
-                                JOptionPane.showMessageDialog(rootPane, "Rut obligatorio", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(rootPane, "Nombre del vendedor obligatorio", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Metros cuadrados obligatorios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Precio obligatorio", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Cantidad de habitaciones obligatoria", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Dirección obligatoria", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "Nombre de la propiedad obligatorio", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
+     if (txtfNombrePropiedad.getText().isBlank() ||
+        txtfDireccion.getText().isBlank() ||
+        txtfHabitaciones.getText().isBlank() ||
+        txtfPrecio.getText().isBlank() ||
+        txtfMetros.getText().isBlank() ||
+        txtfNombreVendedor.getText().isBlank() ||
+        txtfRut.getText().isBlank()) {
+        JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
+        return;
     }
+
+    if (!txtfNombreVendedor.getText().matches("^[A-Za-z ]+$")) {
+        JOptionPane.showMessageDialog(rootPane, "El nombre solo puede contener letras y espacios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        String nombrePropiedad = txtfNombrePropiedad.getText();
+        String direccion = txtfDireccion.getText();
+        int habitaciones = Integer.parseInt(txtfHabitaciones.getText());
+        int precio = Integer.parseInt(txtfPrecio.getText());
+        int metrosCuadrados = Integer.parseInt(txtfMetros.getText());
+
+        String nombreVendedor = txtfNombreVendedor.getText();
+        int rutVendedor = Integer.parseInt(txtfRut.getText());
+
+        Vendedor vendedor = new Vendedor();
+        vendedor.setNombre(nombreVendedor);
+        vendedor.setRut(rutVendedor);
+
+        Propiedad propiedad = new Propiedad();
+        propiedad.setNombrePropiedad(nombrePropiedad);
+        propiedad.setDireccion(direccion);
+        propiedad.setHabitaciones(habitaciones);
+        propiedad.setMetrosCuadrados(metrosCuadrados);
+        propiedad.setPrecio(precio);
+        propiedad.setVendedor(vendedor);
+        propiedad.setTipo(tipoPropiedad);
+
+        RegistroVendedor registroVendedor = new RegistroVendedor();
+        registroVendedor.agregarVendedor(vendedor);
+
+        RegistroPropiedades registroPropiedad = new RegistroPropiedades();
+        registroPropiedad.agregarPropiedad(propiedad);
+        ventPrincipal.actualizar();
+        JOptionPane.showMessageDialog(rootPane, "Propiedad añadida con éxito", "Éxito", JOptionPane.PLAIN_MESSAGE);
+        dispose();
         
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(rootPane, "Los campos de números deben contener valores válidos", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
+    }
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 

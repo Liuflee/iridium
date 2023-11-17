@@ -3,24 +3,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import bd.Conexion;
+import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.RegistroPropiedades;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import model.Propiedad;
+import model.Vendedor;
 
 /**
  *
  * @author Sumir
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form PrincipalVariante
      */
+    
+    RegistroPropiedades reg = new RegistroPropiedades();
     public VentanaPrincipal() {
+        
         initComponents();
+        
         actualizar();
     }
 
@@ -46,12 +59,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mniAgregarCasa = new javax.swing.JMenuItem();
         mniAgregarDpto = new javax.swing.JMenuItem();
         menuModificar = new javax.swing.JMenu();
+        mnuiModificar = new javax.swing.JMenuItem();
         menuEliminar = new javax.swing.JMenu();
         mnuiEliminar = new javax.swing.JMenuItem();
-        menuSalir = new javax.swing.JMenu();
-        probarConexion = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        mnuiDracula = new javax.swing.JMenuItem();
+        mnuiLight = new javax.swing.JMenuItem();
+        mnuiMonokai = new javax.swing.JMenuItem();
+        mnuiDefault = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("texto de ejemplo");
+
+        txtfBusqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtfBusquedaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtfBusquedaFocusLost(evt);
+            }
+        });
 
         jLabel1.setText("Lista de propiedades:");
 
@@ -95,17 +122,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Nombre", "Tipo", "Habitaciones", "M2", "Precio", "Dirección", "Vendedor(a)"
+                "Codigo", "Nombre", "Tipo", "Habitaciones", "M2", "Precio", "Dirección", "Vendedor(a)", "RUT Vendedor"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        tablePropiedades.setName(""); // NOI18N
         jScrollPane2.setViewportView(tablePropiedades);
 
         btnEliminarSelected.setText("Eliminar");
@@ -114,6 +149,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 btnEliminarSelectedActionPerformed(evt);
             }
         });
+
+        jMenuBar1.setBorder(null);
 
         menuAgregar.setText("Añadir");
 
@@ -136,6 +173,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuAgregar);
 
         menuModificar.setText("Modificar");
+
+        mnuiModificar.setText("Modificar Seleccionado");
+        mnuiModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiModificarActionPerformed(evt);
+            }
+        });
+        menuModificar.add(mnuiModificar);
+
         jMenuBar1.add(menuModificar);
 
         menuEliminar.setText("Eliminar");
@@ -155,20 +201,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuEliminar);
 
-        menuSalir.setText("Salir");
-        jMenuBar1.add(menuSalir);
+        jMenu1.setText("Cambiar Tema");
 
-        probarConexion.setText("Probar");
-        probarConexion.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                probarConexionMenuSelected(evt);
+        mnuiDracula.setText("Dracula");
+        mnuiDracula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiDraculaActionPerformed(evt);
             }
         });
-        jMenuBar1.add(probarConexion);
+        jMenu1.add(mnuiDracula);
+
+        mnuiLight.setText("Light");
+        mnuiLight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiLightActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuiLight);
+
+        mnuiMonokai.setText("Monokai");
+        mnuiMonokai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiMonokaiActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuiMonokai);
+
+        mnuiDefault.setText("Por Defecto");
+        mnuiDefault.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiDefaultActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuiDefault);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -188,7 +255,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,54 +269,66 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     
     public void actualizar() {
-                
-        // Esta query es la que devuelve los datos para la tabla
-        String sql = "SELECT p.cod_propiedad, p.nombre_propiedad, p.nro_habitaciones, p.metros_cuadrados, p.precio, p.direccion, v.nombre_vendedor FROM propiedades p JOIN vendedor v ON (p.rut_vendedor = v.rut);";
-        try{
-            Conexion miConex = new Conexion();
-            Connection cnx = miConex.getConexion();
-            PreparedStatement pst = cnx.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            
-            DefaultTableModel model = (DefaultTableModel) tablePropiedades.getModel();
-            model.setRowCount(0);
-             
-            while(rs.next()) {
-                model.addRow(new Object[]{rs.getInt(1), rs.getString(2), "", rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7)}); 
-                //ACA VAN LOS DATOS EL INDICE INDICA LA POSICION EN LA QUERY 
-            }
-            
-            miConex.cerrarConexion(cnx);
-            
-        }catch(Exception ex){
-            System.out.println("Error: "+ex.getMessage());
-        }
-        
+    // Defino variables para rescatar del objeto propiedad y vendedor
+    int codPropiedad, nroHabitaciones, metrosCuadrados, precio, rutVendedor;
+    String nombrePropiedad, direccion, nombreVendedor, tipo;
+ 
+    DefaultTableModel modelo = (DefaultTableModel) this.tablePropiedades.getModel();
+    // Para que no se duplique la información
+    modelo.setRowCount(0);
+    ArrayList<Propiedad> listaPropiedades = reg.obtenerDatosPropiedades();
+
+    for (Propiedad propiedad : listaPropiedades) {
+        codPropiedad = propiedad.getCodigo();
+        nombrePropiedad = propiedad.getNombrePropiedad();
+        nroHabitaciones = propiedad.getHabitaciones();
+        metrosCuadrados = propiedad.getMetrosCuadrados();
+        tipo = propiedad.getTipo();
+        precio = propiedad.getPrecio();
+        direccion = propiedad.getDireccion();
+
+        Vendedor vendedor = propiedad.getVendedor();
+        nombreVendedor = vendedor.getNombre();
+        rutVendedor = vendedor.getRut();
+
+        modelo.addRow(new Object[]{codPropiedad, nombrePropiedad, tipo , nroHabitaciones, metrosCuadrados, precio, direccion, nombreVendedor, rutVendedor});
     }
+}
+    
+    public Object[] getDatos() {
+        
+        int filaSeleccionada = tablePropiedades.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) tablePropiedades.getModel();
+        int numColumnas = modelo.getColumnCount();
+        Object[] datosFila = new Object[numColumnas];
+
+        for (int i = 0; i < numColumnas; i++) {
+            datosFila[i] = modelo.getValueAt(filaSeleccionada, i);
+        }
+    
+        return datosFila;
+    }
+
     
     private void mniAgregarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarCasaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mniAgregarCasaActionPerformed
-
-    private void probarConexionMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_probarConexionMenuSelected
-        // TODO add your handling code here:
-        try{
-            Conexion myConex = new Conexion();
-            Connection cnx = myConex.getConexion();
-        }catch(Exception ex){
-            System.out.println("Error: "+ ex.getMessage());
-        }
-    }//GEN-LAST:event_probarConexionMenuSelected
-
-    private void mniAgregarDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarDptoActionPerformed
-        // TODO add your handling code here:
-        AgregarVentana ventanaAgregar = new AgregarVentana(this);
+        AgregarVentana ventanaAgregar = new AgregarVentana(this, "Casa");
         int x = getX() + (getWidth() - ventanaAgregar.getWidth()) / 2;
         int y = getY() + (getHeight() - ventanaAgregar.getHeight()) / 2;
 
         ventanaAgregar.setLocation(x, y);
         ventanaAgregar.setVisible(true);
+    }//GEN-LAST:event_mniAgregarCasaActionPerformed
+
+    private void mniAgregarDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarDptoActionPerformed
+        // TODO add your handling code here:
+        AgregarVentana ventanaAgregar = new AgregarVentana(this, "Departamento");
+        int x = getX() + (getWidth() - ventanaAgregar.getWidth()) / 2;
+        int y = getY() + (getHeight() - ventanaAgregar.getHeight()) / 2;
+
+        ventanaAgregar.setLocation(x, y);
         ventanaAgregar.setVisible(true);
+
     }//GEN-LAST:event_mniAgregarDptoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
@@ -258,7 +337,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mnuiEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiEliminarActionPerformed
         // TODO add your handling code here:
-        Eliminar eliminar = new Eliminar();
+        Eliminar eliminar = new Eliminar(this);
+        int x = getX() + (getWidth() - eliminar.getWidth()) / 2;
+        int y = getY() + (getHeight() - eliminar.getHeight()) / 2;
+
+        eliminar.setLocation(x, y);
         eliminar.setVisible(true);
     }//GEN-LAST:event_mnuiEliminarActionPerformed
 
@@ -270,42 +353,103 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void btnEliminarSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSelectedActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = tablePropiedades.getSelectedRow();
-        int codSeleccionado = (int) tablePropiedades.getValueAt(filaSeleccionada, 0);
-        RegistroPropiedades registro = new RegistroPropiedades();
-        registro.eliminarPropiedad(codSeleccionado);
-        btnActualizarActionPerformed(evt);
-        
+        if (filaSeleccionada != -1) { 
+            // Confirmar la eliminación
+            UIManager.put("OptionPane.yesButtonText", "Sí");
+            UIManager.put("OptionPane.noButtonText", "No");
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres eliminar esta fila?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+            // Verificar la opción seleccionada en el cuadro de diálogo de confirmación
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                int codSeleccionado = (int) tablePropiedades.getValueAt(filaSeleccionada, 0);
+                RegistroPropiedades registro = new RegistroPropiedades();
+                registro.eliminarPropiedad(codSeleccionado);
+                btnActualizarActionPerformed(evt);
+            }
+            // No hay necesidad de un else aquí para la opción "No"
+
+        } else {
+            // Si no hay fila seleccionada, mostrar mensaje de advertencia
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Ninguna fila seleccionada", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarSelectedActionPerformed
+
+    private void mnuiModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiModificarActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tablePropiedades.getSelectedRow();
+        if (filaSeleccionada != -1) { // Verifica si hay una fila seleccionada
+            Object[] datos = this.getDatos();
+            ModificarVentana ventanaMod = new ModificarVentana(datos, this);
+            int x = getX() + (getWidth() - ventanaMod.getWidth()) / 2;
+            int y = getY() + (getHeight() - ventanaMod.getHeight()) / 2;
+
+            ventanaMod.setLocation(x, y);
+            ventanaMod.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para modificar.", "Ninguna fila seleccionada", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_mnuiModificarActionPerformed
+
+    private void txtfBusquedaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtfBusquedaFocusGained
+        // TODO add your handling code here:
+        if(txtfBusqueda.getText().equals("Ingrese codigo de propiedad:")) {
+            txtfBusqueda.setText("");
+
+        }
+    }//GEN-LAST:event_txtfBusquedaFocusGained
+
+    private void txtfBusquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtfBusquedaFocusLost
+        // TODO add your handling code here:
+        if(txtfBusqueda.getText().equals("")) {
+            txtfBusqueda.setText("Ingrese codigo de propiedad:");
+            txtfBusqueda.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtfBusquedaFocusLost
+    
+    private void cambiarTema(LookAndFeel tema) {
+        try {
+            UIManager.setLookAndFeel(tema);
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void mnuiDraculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiDraculaActionPerformed
+        // TODO add your handling code here:
+        cambiarTema(new FlatDraculaIJTheme());
+        
+    }//GEN-LAST:event_mnuiDraculaActionPerformed
+
+    private void mnuiLightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiLightActionPerformed
+        // TODO add your handling code here:
+        cambiarTema(new FlatMacLightLaf());
+    }//GEN-LAST:event_mnuiLightActionPerformed
+
+    private void mnuiMonokaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiMonokaiActionPerformed
+        // TODO add your handling code here:
+        cambiarTema(new FlatMonokaiProIJTheme());
+    }//GEN-LAST:event_mnuiMonokaiActionPerformed
+
+    private void mnuiDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiDefaultActionPerformed
+        // TODO add your handling code here:
+        cambiarTema(new FlatDarkPurpleIJTheme());
+    }//GEN-LAST:event_mnuiDefaultActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel de flatlaf ">
+
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatDarkPurpleIJTheme());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaPrincipal().setVisible(true);
@@ -318,17 +462,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminarSelected;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenu menuAgregar;
     private javax.swing.JMenu menuEliminar;
     private javax.swing.JMenu menuModificar;
-    private javax.swing.JMenu menuSalir;
     private javax.swing.JMenuItem mniAgregarCasa;
     private javax.swing.JMenuItem mniAgregarDpto;
+    private javax.swing.JMenuItem mnuiDefault;
+    private javax.swing.JMenuItem mnuiDracula;
     private javax.swing.JMenuItem mnuiEliminar;
-    private javax.swing.JMenu probarConexion;
+    private javax.swing.JMenuItem mnuiLight;
+    private javax.swing.JMenuItem mnuiModificar;
+    private javax.swing.JMenuItem mnuiMonokai;
     private javax.swing.JTable tablePropiedades;
     private javax.swing.JTextField txtfBusqueda;
     // End of variables declaration//GEN-END:variables

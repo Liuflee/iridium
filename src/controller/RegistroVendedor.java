@@ -23,14 +23,13 @@ public class RegistroVendedor {
                 resultSet.next();
                 int count = resultSet.getInt(1);
                 
-                // Si el vendedor ya existe, no lo agregamos nuevamente
+            
                 if (count > 0) {
                     System.out.println("El vendedor ya existe en la base de datos.");
                     return false;
                 }
             }
 
-            // Si el vendedor no existe, lo agregamos a la base de datos
             String sqlAgregar = "INSERT INTO vendedor (nombre_vendedor, rut) VALUES (?, ?)";
             try (PreparedStatement statementAgregar = cnx.prepareStatement(sqlAgregar)) {
                 statementAgregar.setString(1, vendedor.getNombre());
@@ -54,4 +53,40 @@ public class RegistroVendedor {
             }
         }
     }
+    
+    public void actualizarVendedor(Vendedor vendedor) {
+    Connection cnx = null;
+    try {
+        Conexion myConex = new Conexion();
+        cnx = myConex.getConexion();
+        
+        String sql = "UPDATE vendedor " +
+                     "SET nombre_vendedor = ? " +
+                     "WHERE rut = ?";
+                     
+        try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+            statement.setString(1, vendedor.getNombre());
+            statement.setInt(2, vendedor.getRut());
+
+            statement.executeUpdate();
+            System.out.println("Vendedor actualizado correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+    } catch (Exception ex) {
+        System.out.println("Error: " + ex.getMessage());
+    } finally {
+        // Cerrar la conexión
+        try {
+            if (cnx != null && !cnx.isClosed()) {
+                cnx.close();
+                System.out.println("Conexión cerrada.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al cerrar la conexión: " + ex.getMessage());
+        }
+    }
+}
+
+    
 }

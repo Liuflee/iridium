@@ -5,25 +5,34 @@ package model;
  * @author Sumir
  */
 public class Propiedad {
-
+    
+    private int codigo;
     private String nombrePropiedad;
     private int habitaciones, precio, metrosCuadrados;
-    private String direccion;
+    private String direccion, tipo;
     private Vendedor vendedor;
 
-    public Propiedad() {
-    }
-
-    public Propiedad(String nombrePropiedad, int habitaciones, int precio, int metrosCuadrados, String direccion, Vendedor vendedor) {
-
+    public Propiedad(int codigo, String nombrePropiedad, int habitaciones, int precio, int metrosCuadrados, String direccion, String tipo, Vendedor vendedor) {
+        this.codigo = codigo;
         this.nombrePropiedad = nombrePropiedad;
         this.habitaciones = habitaciones;
         this.precio = precio;
         this.metrosCuadrados = metrosCuadrados;
         this.direccion = direccion;
+        this.tipo = tipo;
         this.vendedor = vendedor;
     }
 
+    public Propiedad() {
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
 
     public String getNombrePropiedad() {
         return nombrePropiedad;
@@ -65,6 +74,14 @@ public class Propiedad {
         this.direccion = direccion;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public Vendedor getVendedor() {
         return vendedor;
     }
@@ -73,6 +90,8 @@ public class Propiedad {
         this.vendedor = vendedor;
     }
     
+    
+   
     
     
 }
