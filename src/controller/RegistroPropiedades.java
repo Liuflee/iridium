@@ -54,7 +54,6 @@ public class RegistroPropiedades {
     }
 }
 
-
     public void eliminarPropiedad(int codPropiedad) {
 
     Connection cnx = null;
@@ -122,7 +121,6 @@ public class RegistroPropiedades {
             }
         }
 }
-
 
     public ArrayList<Propiedad> obtenerDatosPropiedades() {
     ArrayList<Propiedad> listaPropiedades = new ArrayList<>();
