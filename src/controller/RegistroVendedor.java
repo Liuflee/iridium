@@ -60,9 +60,7 @@ public class RegistroVendedor {
         Conexion myConex = new Conexion();
         cnx = myConex.getConexion();
         
-        String sql = "UPDATE vendedor " +
-                     "SET nombre_vendedor = ? " +
-                     "WHERE rut = ?";
+        String sql = "UPDATE vendedor SET nombre_vendedor = ? WHERE rut = ?";
                      
         try (PreparedStatement statement = cnx.prepareStatement(sql)) {
             statement.setString(1, vendedor.getNombre());
