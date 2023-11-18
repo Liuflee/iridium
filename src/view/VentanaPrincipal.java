@@ -2,12 +2,21 @@
 package view;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatGradiantoNatureGreenIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.RegistroPropiedades;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.RowFilter;
@@ -91,6 +100,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mnuiLight = new javax.swing.JMenuItem();
         mnuiMonokai = new javax.swing.JMenuItem();
         mnuiDefault = new javax.swing.JMenuItem();
+        mnuiCat = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -238,6 +248,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mnuiDefault);
+
+        mnuiCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Png (1).png"))); // NOI18N
+        mnuiCat.setText("?");
+        mnuiCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiCatActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuiCat);
 
         jMenuBar1.add(jMenu1);
 
@@ -442,6 +461,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(tema);
             SwingUtilities.updateComponentTreeUI(this);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -466,7 +486,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         actualizar();
     }//GEN-LAST:event_btnActualizarActionPerformed
-
+    
+     
     //</editor-fold>
     // Barra de busqueda y filtrado
     //<editor-fold defaultstate="collapsed" desc="Filtrado">
@@ -512,6 +533,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         modelo.setRowCount(0); // Elimina todas las filas de la tabla
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void mnuiCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiCatActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        Random random = new Random();
+        int maxX = this.getWidth() - 200; // Ajusta el máximo ancho para la posición X
+        int maxY = this.getHeight() - 200; // Ajusta el máximo alto para la posición Y
+
+        // Mover los botones y el campo de texto a posiciones aleatorias
+        btnEliminarSelected.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        btnLimpiar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        btnActualizar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        btnBuscar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        txtfBusqueda.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        jLabel1.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+
+    }//GEN-LAST:event_mnuiCatActionPerformed
+
     //</editor-fold>
     // Inicio de la venta principal
     //<editor-fold defaultstate="collapsed" desc="Main">
@@ -529,24 +569,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                // Creación de la fuentes que utiliza el sistema
-                Font nuevaFuente = new Font("Cascadia Code", Font.PLAIN, 12);
-                Font cascadia = new Font("Cascadia Code", Font.PLAIN, 11);
+                // La ruta relativa al directorio de fuentes
+                String rutaFuente = "fonts/CascadiaCode.ttf";
+
+                try {
+                    // Cargar la fuente
+                    Font nuevaFuente = Font.createFont(Font.TRUETYPE_FONT, new File(rutaFuente)).deriveFont(Font.PLAIN, 12);
+                    Font cascadia = Font.createFont(Font.TRUETYPE_FONT, new File(rutaFuente)).deriveFont(Font.PLAIN, 11);
+                    // Asociación de las fuentes con sus respectivos componentes
+                    UIManager.put("OptionPane.messageFont", nuevaFuente);
+                    UIManager.put("OptionPane.buttonFont", nuevaFuente);
+                    UIManager.put("TextField.font", nuevaFuente);
+                    UIManager.put("ComboBox.font", nuevaFuente);
+                    UIManager.put("Label.font", nuevaFuente);
+                    UIManager.put("Button.font", nuevaFuente);
+                    UIManager.put("Menu.font", nuevaFuente);
+                    UIManager.put("MenuBar.font", nuevaFuente);
+                    UIManager.put("MenuItem.font", cascadia);
+                    UIManager.put("Table.font", cascadia);
+                    UIManager.put("TableHeader.font", nuevaFuente);
                 
-                // Asociación de las fuentes con sus respectivos componentes
-                UIManager.put("OptionPane.messageFont", nuevaFuente);
-                UIManager.put("OptionPane.buttonFont", nuevaFuente);
-                UIManager.put("TextField.font", nuevaFuente);
-                UIManager.put("ComboBox.font", nuevaFuente);
-                UIManager.put("Label.font", nuevaFuente);
-                UIManager.put("Button.font", nuevaFuente);
-                UIManager.put("Menu.font", nuevaFuente);
-                UIManager.put("MenuBar.font", nuevaFuente);
-                UIManager.put("MenuItem.font", cascadia);
-                UIManager.put("Table.font", cascadia);
-                UIManager.put("TableHeader.font", nuevaFuente);
-                
-                
+                } catch (FontFormatException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
                 ventanaPrincipal.setLocationRelativeTo(null); // Pone la ventana en centro de la pantalla
                 ventanaPrincipal.setVisible(true);
@@ -573,6 +621,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuModificar;
     private javax.swing.JMenuItem mniAgregarCasa;
     private javax.swing.JMenuItem mniAgregarDpto;
+    private javax.swing.JMenuItem mnuiCat;
     private javax.swing.JMenuItem mnuiDefault;
     private javax.swing.JMenuItem mnuiDracula;
     private javax.swing.JMenuItem mnuiEliminar;
