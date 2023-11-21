@@ -2,13 +2,10 @@
 package view;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatGradiantoNatureGreenIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.RegistroPropiedades;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
@@ -17,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.RowFilter;
@@ -40,8 +38,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     //<editor-fold defaultstate="collapsed" desc="Constructor y Variables">
     RegistroPropiedades reg = new RegistroPropiedades();
-
-    
 
     public VentanaPrincipal() {
         initComponents();
@@ -379,38 +375,45 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 //</editor-fold>
     // Creación de las ventanas con sus respectivos eventos
     //<editor-fold defaultstate="collapsed" desc="Ventanas">
+    
+    /**
+     * Posiciona la ventana en el centro y la hace visible
+     * @param ventana 
+     */
+    private void abrirVentana(JFrame ventana) { 
+        int x = getX() + (getWidth() - ventana.getWidth()) / 2;
+        int y = getY() + (getHeight() - ventana.getHeight()) / 2;
 
+        ventana.setLocation(x, y);
+        ventana.setVisible(true);
+    }
+    /**
+     * Recibe un string con el tipo de propiedad para hacer la diferenciacion de tipos 
+     * en la base de datos
+     * @param tipoPropiedad 
+     */
+    private void crearAgregar(String tipoPropiedad) {
+        AgregarVentana ventanaAgregar = new AgregarVentana(this, tipoPropiedad);
+        abrirVentana(ventanaAgregar);
+    }
+    
     private void mniAgregarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarCasaActionPerformed
-
-        AgregarVentana ventanaAgregar = new AgregarVentana(this, "Casa");
-        int x = getX() + (getWidth() - ventanaAgregar.getWidth()) / 2;
-        int y = getY() + (getHeight() - ventanaAgregar.getHeight()) / 2;
-
-        ventanaAgregar.setLocation(x, y);
-        ventanaAgregar.setVisible(true);
+        crearAgregar("Casa");
     }//GEN-LAST:event_mniAgregarCasaActionPerformed
   
     private void mniAgregarDptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgregarDptoActionPerformed
-
-        AgregarVentana ventanaAgregar = new AgregarVentana(this, "Departamento");
-        int x = getX() + (getWidth() - ventanaAgregar.getWidth()) / 2;
-        int y = getY() + (getHeight() - ventanaAgregar.getHeight()) / 2;
-
-        ventanaAgregar.setLocation(x, y);
-        ventanaAgregar.setVisible(true);
-
+        crearAgregar("Departamento");
     }//GEN-LAST:event_mniAgregarDptoActionPerformed
 
     private void mnuiEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiEliminarActionPerformed
-
-        Eliminar eliminar = new Eliminar(this);
-        int x = getX() + (getWidth() - eliminar.getWidth()) / 2;
-        int y = getY() + (getHeight() - eliminar.getHeight()) / 2;
-
-        eliminar.setLocation(x, y);
-        eliminar.setVisible(true);
+    Eliminar eliminar = new Eliminar(this);
+    abrirVentana(eliminar);
     }//GEN-LAST:event_mnuiEliminarActionPerformed
-
+    
+    /**
+     * Este evento verifica que haya un fila seleccionada, luego elimina esos datos en la base de datos
+     * @param evt 
+     */
     private void btnEliminarSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSelectedActionPerformed
 
         int filaSeleccionada = tablePropiedades.getSelectedRow();
@@ -424,9 +427,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 int codSeleccionado = (int) tablePropiedades.getValueAt(filaSeleccionada, 0);
                 RegistroPropiedades registro = new RegistroPropiedades();
                 registro.eliminarPropiedad(codSeleccionado);
-                btnActualizarActionPerformed(evt);
+                actualizar();
             }
-
 
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Ninguna fila seleccionada", JOptionPane.WARNING_MESSAGE);
@@ -439,11 +441,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (filaSeleccionada != -1) { // Verifica si hay una fila seleccionada
             Object[] datos = this.getDatos();
             ModificarVentana ventanaMod = new ModificarVentana(datos, this);
-            int x = getX() + (getWidth() - ventanaMod.getWidth()) / 2;
-            int y = getY() + (getHeight() - ventanaMod.getHeight()) / 2;
-
-            ventanaMod.setLocation(x, y);
-            ventanaMod.setVisible(true);
+            abrirVentana(ventanaMod);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para modificar.", "Ninguna fila seleccionada", JOptionPane.WARNING_MESSAGE);
         }
@@ -535,9 +533,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void mnuiCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiCatActionPerformed
         // TODO add your handling code here:
-        
-        
-        
+
         Random random = new Random();
         int maxX = this.getWidth() - 200; // Ajusta el máximo ancho para la posición X
         int maxY = this.getHeight() - 200; // Ajusta el máximo alto para la posición Y
@@ -555,7 +551,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     //</editor-fold>
     // Inicio de la venta principal
     //<editor-fold defaultstate="collapsed" desc="Main">
-    
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc="Look and Feel por defecto">

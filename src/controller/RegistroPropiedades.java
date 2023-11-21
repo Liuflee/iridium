@@ -94,7 +94,7 @@ public class RegistroPropiedades {
 
             String sql = "UPDATE propiedades SET nombre_propiedad = ?, nro_habitaciones = ?, precio = ?, metros_cuadrados = ?, direccion = ? WHERE cod_propiedad = ?";
 
-            try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+            try (PreparedStatement statement = cnx.prepareStatement(sql)) { 
                 statement.setString(1, propiedad.getNombrePropiedad());
                 statement.setInt(2, propiedad.getHabitaciones());
                 statement.setInt(3, propiedad.getPrecio());

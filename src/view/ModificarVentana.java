@@ -226,6 +226,7 @@ public class ModificarVentana extends javax.swing.JFrame {
             RegistroPropiedades registroPropiedad = new RegistroPropiedades();
             registroPropiedad.actualizarPropiedad(propiedad);
             ventPrincipal.actualizar();
+            
             JOptionPane.showMessageDialog(rootPane, "Propiedad modificada con éxito", "Éxito", JOptionPane.PLAIN_MESSAGE);
             dispose();
         } catch (NumberFormatException ex) {
