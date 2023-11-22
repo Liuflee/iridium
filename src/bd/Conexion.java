@@ -1,10 +1,19 @@
+//<editor-fold defaultstate="collapsed" desc="Librerías y Paquetes">
 package bd;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+//</editor-fold>
+/**
+ *
+ * @author Anette Villalón, Smolenks Aravena
+ */
 public class Conexion {
-    
+    //<editor-fold defaultstate="collapsed" desc="Conectar">
+    /**
+     * Método para conectarse a la base de datos
+     * @return 
+     */
     public Connection getConexion() {
         Connection conex = null;
         try {
@@ -16,8 +25,12 @@ public class Conexion {
         }
         return conex;
     }
-    
-    // Método para cerrar la conexión
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Desconectar">
+
+    /**
+     * Método para cerrar la conexión
+     */
     public void cerrarConexion(Connection conexion) {
         try {
             if (conexion != null && !conexion.isClosed()) {
@@ -28,4 +41,7 @@ public class Conexion {
             System.out.println("Error al cerrar la conexión: " + ex.getMessage());
         }
     }
+        
+//</editor-fold>
+    
 }

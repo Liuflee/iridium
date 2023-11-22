@@ -1,3 +1,4 @@
+//<editor-fold defaultstate="collapsed" desc="Librerías y Paquetes">
 package controller;
 import bd.Conexion;
 import java.sql.Connection;
@@ -7,13 +8,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Propiedad;
 import model.Vendedor;
-
+//</editor-fold>
 /**
  *
- * @author Sumir
+ * @author Anette Villalón, Smolenks Aravena
  */
 public class RegistroPropiedades {
+    //<editor-fold defaultstate="collapsed" desc="Agregar">
     
+
+    /**
+     * Recibe un objeto tipo propiedad y lo inserta en la base de datos
+     * Utiliza la colaboración de vendedor para obtener su rut
+     * @param propiedad 
+     */
     public void agregarPropiedad(Propiedad propiedad) {
         
     Connection cnx = null;
@@ -31,7 +39,7 @@ public class RegistroPropiedades {
             statement.setInt(3, propiedad.getPrecio());
             statement.setInt(4, propiedad.getMetrosCuadrados());
             statement.setString(5, propiedad.getDireccion());
-            statement.setInt(6, propiedad.getVendedor().getRut()); //AQUI QUIERO CONSEGUIR EL CODIGO, pero no existe, porque es autoincremental
+            statement.setInt(6, propiedad.getVendedor().getRut()); // Foranéa
             statement.setString(7, propiedad.getTipo());
             statement.executeUpdate();
           
@@ -53,7 +61,14 @@ public class RegistroPropiedades {
         }
     }
 }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Eliminar">
+    
 
+    /**
+     * Recibe un codigo de propiedad, y elimina la propiedad con ese codigo
+     * @param codPropiedad 
+     */
     public void eliminarPropiedad(int codPropiedad) {
 
     Connection cnx = null;
@@ -85,7 +100,13 @@ public class RegistroPropiedades {
         }
     }
     }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Modificar">
     
+    /**
+     * Recibe una propiedad y modifica sus datos utilizando su codigo
+     * @param propiedad 
+     */
     public void actualizarPropiedad(Propiedad propiedad) {
         Connection cnx = null;
         try {
@@ -121,7 +142,13 @@ public class RegistroPropiedades {
             }
         }
 }
-
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Obtener Datos">
+    /**
+     * Utiliza un select para obtener los datos de las propiedades y los vendedores,
+     * crea sus objetos respectivos e inserta los de las propiedades en una lista.
+     * @return Devuelve una lista con las propiedades
+     */
     public ArrayList<Propiedad> obtenerDatosPropiedades() {
     ArrayList<Propiedad> listaPropiedades = new ArrayList<>();
 
@@ -162,6 +189,5 @@ public class RegistroPropiedades {
 
     return listaPropiedades;
 }
-
-
+//</editor-fold>
 }

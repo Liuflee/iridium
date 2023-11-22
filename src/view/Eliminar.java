@@ -1,14 +1,19 @@
+//<editor-fold defaultstate="collapsed" desc="Librerías y Paquetes">
+
+
 package view;
 import controller.RegistroPropiedades;
 import javax.swing.JOptionPane;
-
+//</editor-fold>
 /**
  *
- * @author Sumir
+ * @author Anette Villalón, Smolenks Aravena
  */
 public class Eliminar extends javax.swing.JFrame {
+    //<editor-fold defaultstate="collapsed" desc="Constructor y variables">
+    
 
-    private VentanaPrincipal ventPrincipal;
+    private VentanaPrincipal ventPrincipal; // Recibe la ventana principal, para actualizar la tabla
     
     public Eliminar(VentanaPrincipal ventPrincipal) {
         this.ventPrincipal = ventPrincipal;
@@ -17,6 +22,7 @@ public class Eliminar extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+    //</editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -66,13 +72,20 @@ public class Eliminar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    //<editor-fold defaultstate="collapsed" desc="Acción de eliminar">
+    
 
+    /**
+     * Recibe un codigo, manda un JPane para confirmar, y si confirma 
+     * elimina la propiedad con el registro y actualiza la tabla principal
+     * @param evt 
+     */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         
         String codStr = txtfCodigo.getText();
         
         int codigoPropiedad = Integer.parseInt(codStr);
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres eliminar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás segurx de que quieres eliminar?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
         if (opcion == JOptionPane.YES_OPTION) {
             RegistroPropiedades registro = new RegistroPropiedades();
@@ -82,10 +95,14 @@ public class Eliminar extends javax.swing.JFrame {
         ventPrincipal.actualizar();
         dispose();
     }//GEN-LAST:event_btnEliminarActionPerformed
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Componentes de Swing">
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtfCodigo;
     // End of variables declaration//GEN-END:variables
+//</editor-fold>
 }

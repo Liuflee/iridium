@@ -42,7 +42,7 @@
 
     For list of available properties check the imported 
     nbproject/build-impl.xml file. 
-
+    
 
     Another way to customize the build is by overriding existing main targets.
     The targets of interest are: 
@@ -70,4 +70,11 @@
     nbproject/build-impl.xml file. 
 
     -->
+<target name="copyFonts" depends="init">
+    <copy todir="${build.classes.dir}/fonts">
+        <fileset dir="${basedir}/fonts" includes="CascadiaCode.ttf"/>
+    </copy>
+</target>
+
+
 </project>

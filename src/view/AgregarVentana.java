@@ -174,7 +174,7 @@ public class AgregarVentana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Verificaciones e input de datos
-    //<editor-fold defaultstate="collapsed" desc="Función de Agregar">
+    //<editor-fold defaultstate="collapsed" desc="Acción de Agregar">
     
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed

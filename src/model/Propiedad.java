@@ -2,15 +2,18 @@ package model;
 
 /**
  *
- * @author Sumir
+ * @author Anette Villalón, Smolenks Aravena
  */
 public class Propiedad {
-    
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private int codigo;
     private String nombrePropiedad;
     private int habitaciones, precio, metrosCuadrados;
     private String direccion, tipo;
     private Vendedor vendedor;
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Constructores">
+    
 
     public Propiedad(int codigo, String nombrePropiedad, int habitaciones, int precio, int metrosCuadrados, String direccion, String tipo, Vendedor vendedor) {
         this.codigo = codigo;
@@ -25,6 +28,9 @@ public class Propiedad {
 
     public Propiedad() {
     }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+    
 
     public int getCodigo() {
         return codigo;
@@ -89,9 +95,5 @@ public class Propiedad {
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
     }
-    
-    
-   
-    
-    
+   //</editor-fold>  
 }

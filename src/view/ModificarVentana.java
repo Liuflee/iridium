@@ -1,24 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+//<editor-fold defaultstate="collapsed" desc="Librerías y Paquetes">
+
+
 package view;
-
-
 import controller.RegistroPropiedades;
 import controller.RegistroVendedor;
 import javax.swing.JOptionPane;
 import model.Propiedad;
 import model.Vendedor;
 
+//</editor-fold>
 /**
  *
- * @author Sumir
+ * @author Anette Villalón, Smolenks Aravena
  */
 public class ModificarVentana extends javax.swing.JFrame {
-    
+    //<editor-fold defaultstate="collapsed" desc="Constructor y variables">
     private VentanaPrincipal ventPrincipal;
-    private Object[] datosFilas;
+    private Object[] datosFilas; // Datos de la fila seleccionada, se reciben en el constructor
+    
+    
 
     public ModificarVentana(Object[] datos, VentanaPrincipal ventPrincipal) {
         datosFilas = datos;
@@ -28,10 +28,10 @@ public class ModificarVentana extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
+    //</editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -163,9 +163,14 @@ public class ModificarVentana extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    //<editor-fold defaultstate="collapsed" desc="Acción de Modificar">
     
-        private void cambiarTexto() {
-         if (datosFilas != null && datosFilas.length >= 6) { // Asumiendo que tienes al menos 6 datos
+
+    /**
+     * Rellena los textfield de la tabla con los datos de la columna seleccionada
+     */
+    private void cambiarTexto() {
+         if (datosFilas != null && datosFilas.length >= 6) { 
             txtfNombrePropiedad.setText(datosFilas[1].toString());
             txtfDireccion.setText(datosFilas[6].toString());
             txtfHabitaciones.setText(datosFilas[3].toString());
@@ -178,7 +183,11 @@ public class ModificarVentana extends javax.swing.JFrame {
         }
     }
     
-    
+    /**
+     * Verifica que todos los campos cumplan con las condiciones.
+     * Realiza la acción de modificar utilizando los registros
+     * @param evt 
+     */
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         if (txtfNombrePropiedad.getText().isBlank() ||
@@ -202,10 +211,10 @@ public class ModificarVentana extends javax.swing.JFrame {
             int habitaciones = Integer.parseInt(txtfHabitaciones.getText());
             int precio = Integer.parseInt(txtfPrecio.getText());
             int metrosCuadrados = Integer.parseInt(txtfMetros.getText());
-            int codPropiedad = (int) datosFilas[0];
+            int codPropiedad = (int) datosFilas[0]; // Estos datos se obtienen de la tabla y no de los textfield, ya que no se modifican
+            int rutVendedor = (int) datosFilas[8]; 
             String nombreVendedor = txtfNombreVendedor.getText();
-            int rutVendedor = (int) datosFilas[8];
-
+            
             Vendedor vendedor = new Vendedor();
             vendedor.setNombre(nombreVendedor);
             vendedor.setRut(rutVendedor);
@@ -235,11 +244,12 @@ public class ModificarVentana extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnModificarActionPerformed
 
-
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Componentes de Swing">
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModificar;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -255,4 +265,5 @@ public class ModificarVentana extends javax.swing.JFrame {
     private javax.swing.JTextField txtfNombreVendedor;
     private javax.swing.JTextField txtfPrecio;
     // End of variables declaration//GEN-END:variables
+//</editor-fold>
 }

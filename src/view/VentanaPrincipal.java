@@ -8,6 +8,7 @@ import controller.RegistroPropiedades;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         actualizar();
         
-        jButton1.requestFocusInWindow(); //cambia el focus a un boton invisible para que la barra de busqueda no tenga el focus
+        jButton1.requestFocusInWindow(); // Cambia el focus a un boton invisible para que la barra de busqueda no tenga el focus
         
         // Verifica si la barra de busqueda tiene focus y pone un "placeholder"
         
@@ -62,7 +63,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     });
     
-    // placeholder inicial
+    // Placeholder inicial
     txtfBusqueda.setText("Ingrese codigo de propiedad:");
     txtfBusqueda.setForeground(new Color(153, 153, 153));
     tablePropiedades.setAutoCreateRowSorter(true);
@@ -83,6 +84,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        cboxFiltrado = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAgregar = new javax.swing.JMenu();
         mniAgregarCasa = new javax.swing.JMenuItem();
@@ -158,6 +161,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
+
+        cboxFiltrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Departamento", "Casa" }));
+        cboxFiltrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxFiltradoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Filtrar por:");
 
         jMenuBar1.setBorder(null);
 
@@ -266,20 +278,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnBuscar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnActualizar))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnLimpiar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnEliminarSelected))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 809, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnLimpiar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEliminarSelected))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 809, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnBuscar))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cboxFiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnActualizar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(249, 249, 249)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -291,12 +311,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtfBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(cboxFiltrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,7 +334,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Funciones para mostrar los datos de la tabla
     //<editor-fold defaultstate="collapsed" desc="Tabla y datos">
     
-        /**
+    /**
      * Esta funcion muestra los datos de la tabla y posteriormente los centra con CellRenderer
      */
     public void actualizar() {
@@ -337,20 +360,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             rutVendedor = vendedor.getRut();
 
             modelo.addRow(new Object[]{codPropiedad, nombrePropiedad, tipo , nroHabitaciones, metrosCuadrados, precio, direccion, nombreVendedor, rutVendedor});
-
-        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        
+        //Centrado de los datos
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        tablePropiedades.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
-        tablePropiedades.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
+
+        for (int i = 0; i < 9; i++) {
+            tablePropiedades.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         }
 }
@@ -383,7 +400,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void abrirVentana(JFrame ventana) { 
         int x = getX() + (getWidth() - ventana.getWidth()) / 2;
         int y = getY() + (getHeight() - ventana.getHeight()) / 2;
-
         ventana.setLocation(x, y);
         ventana.setVisible(true);
     }
@@ -451,6 +467,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 //</editor-fold>
     // Temas que utiliza el sistema y los eventos asociados
     //<editor-fold defaultstate="collapsed" desc="Cambios de tema">
+    
         /**
      * Cambia el tema principal del programa, y actualiza la ventana
      * @param tema Recibe el LookAndFeel del sistema
@@ -459,11 +476,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(tema);
             SwingUtilities.updateComponentTreeUI(this);
-            
+            this.actualizarTemas(tema);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public static void actualizarTemas(LookAndFeel tema) {
+    Frame[] ventanas = Frame.getFrames();
+    for (Frame ventana : ventanas) {
+        if (ventana != null && ventana.isDisplayable()) {
+            SwingUtilities.updateComponentTreeUI(ventana);
+        }
+    }
+}
 
     private void mnuiDraculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiDraculaActionPerformed
         cambiarTema(new FlatDraculaIJTheme());  
@@ -508,7 +534,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if (!codigoBuscado.isEmpty()) {
                 try {
                     int codigo = Integer.parseInt(codigoBuscado); 
-                    RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter("^" + codigo + "$", 0); // Filtrar exactamente por el código en la columna 0
+                    RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter("^" + codigo + "$", 0);
 
                     sorter.setRowFilter(filter); 
                 } catch (NumberFormatException e) {
@@ -532,21 +558,53 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void mnuiCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiCatActionPerformed
-        // TODO add your handling code here:
 
         Random random = new Random();
-        int maxX = this.getWidth() - 200; // Ajusta el máximo ancho para la posición X
-        int maxY = this.getHeight() - 200; // Ajusta el máximo alto para la posición Y
+        int maxX = this.getWidth() - 200; 
+        int maxY = this.getHeight() - 200; 
 
-        // Mover los botones y el campo de texto a posiciones aleatorias
+        // Mueve los botones y el campo de texto a posiciones aleatorias
         btnEliminarSelected.setLocation(random.nextInt(maxX), random.nextInt(maxY));
         btnLimpiar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
         btnActualizar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
         btnBuscar.setLocation(random.nextInt(maxX), random.nextInt(maxY));
         txtfBusqueda.setLocation(random.nextInt(maxX), random.nextInt(maxY));
         jLabel1.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        cboxFiltrado.setLocation(random.nextInt(maxX), random.nextInt(maxY));
+        jLabel2.setLocation(random.nextInt(maxX), random.nextInt(maxY));
 
     }//GEN-LAST:event_mnuiCatActionPerformed
+    /**
+     * Recibe el criterio del item seleccionado del combobox,
+     * crea un Sorter de la tabla y luego filtra según elcriterio seleccionado
+     * @param evt 
+     */
+    private void cboxFiltradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFiltradoActionPerformed
+        // TODO add your handling code here:
+        String criterio = (String) cboxFiltrado.getSelectedItem(); // Consigue el criterio seleccionado
+        DefaultTableModel modelo = (DefaultTableModel) tablePropiedades.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        tablePropiedades.setRowSorter(sorter);
+
+        if (!criterio.isEmpty()) {
+            RowFilter<DefaultTableModel, Object> filter = null;
+            switch (criterio) {
+                case "Codigo":
+                    filter = RowFilter.regexFilter("\\d+", 0); // Filtra por codigo de propiedad
+                    break;
+                case "Departamento":
+                case "Casa":
+                    filter = RowFilter.regexFilter(criterio, 2); // Filtra según el Departamento o Casa
+                    break;
+                default:
+                    break;
+            }
+
+            sorter.setRowFilter(filter);
+        } else {
+            sorter.setRowFilter(null); // Elimina el filtro si no hay criterio
+        }
+    }//GEN-LAST:event_cboxFiltradoActionPerformed
 
     //</editor-fold>
     // Inicio de la venta principal
@@ -606,8 +664,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminarSelected;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cboxFiltrado;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
