@@ -5,6 +5,7 @@ import controller.RegistroVendedor;
 import javax.swing.JOptionPane;
 import model.Propiedad;
 import model.Vendedor;
+import validations.Validacion;
 //</editor-fold>
 
 /**
@@ -175,67 +176,71 @@ public class AgregarVentana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     // Verificaciones e input de datos
     //<editor-fold defaultstate="collapsed" desc="Acción de Agregar">
-    
-
+    /**
+     * Verifica todos los campos y luego los agrega a la base de datos
+     * @param evt 
+     */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-    
-    // Verifica que los textfield no estén vacios
-    
-    if (txtfNombrePropiedad.getText().isBlank() ||
-        txtfDireccion.getText().isBlank() ||
-        txtfHabitaciones.getText().isBlank() ||
-        txtfPrecio.getText().isBlank() ||
-        txtfMetros.getText().isBlank() ||
-        txtfNombreVendedor.getText().isBlank() ||
-        txtfRut.getText().isBlank()) {
-        JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Verifica que el nombre no tenga caracteres especiales
-    
-    if (!txtfNombreVendedor.getText().matches("^[A-Za-z ]+$")) {
-        JOptionPane.showMessageDialog(rootPane, "El nombre solo puede contener letras y espacios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        // Crea un nueva propiedad y vendedor, los añade con el registro y actualiza la tabla de la ventana principal
         String nombrePropiedad = txtfNombrePropiedad.getText();
         String direccion = txtfDireccion.getText();
-        int habitaciones = Integer.parseInt(txtfHabitaciones.getText());
-        int precio = Integer.parseInt(txtfPrecio.getText());
-        int metrosCuadrados = Integer.parseInt(txtfMetros.getText());
-
+        String habitacionesStr = txtfHabitaciones.getText();
+        String precioStr = txtfPrecio.getText();
+        String metrosStr = txtfMetros.getText();
         String nombreVendedor = txtfNombreVendedor.getText();
-        int rutVendedor = Integer.parseInt(txtfRut.getText());
+        String rutVendedorStr = txtfRut.getText();
 
-        Vendedor vendedor = new Vendedor();
-        vendedor.setNombre(nombreVendedor);
-        vendedor.setRut(rutVendedor);
+        if (Validacion.camposVacios(nombrePropiedad, direccion, habitacionesStr, precioStr, metrosStr, nombreVendedor, rutVendedorStr)) {
+            Validacion.mostrarError("Todos los campos son obligatorios");
+            return;
+        }
 
-        Propiedad propiedad = new Propiedad();
-        propiedad.setNombrePropiedad(nombrePropiedad);
-        propiedad.setDireccion(direccion);
-        propiedad.setHabitaciones(habitaciones);
-        propiedad.setMetrosCuadrados(metrosCuadrados);
-        propiedad.setPrecio(precio);
-        propiedad.setVendedor(vendedor);
-        propiedad.setTipo(tipoPropiedad);
+        if (!Validacion.nombreSoloLetras(nombreVendedor)) {
+            Validacion.mostrarError("El nombre solo puede contener letras y espacios");
+            return;
+        }
 
-        RegistroVendedor registroVendedor = new RegistroVendedor();
-        registroVendedor.agregarVendedor(vendedor);
+        if (!Validacion.validarNumeros(habitacionesStr, precioStr, metrosStr)) {
+            Validacion.mostrarError("Los campos de números deben contener valores válidos");
+            return;
+        }
 
-        RegistroPropiedades registroPropiedad = new RegistroPropiedades();
-        registroPropiedad.agregarPropiedad(propiedad);
-        ventPrincipal.actualizar();
-        JOptionPane.showMessageDialog(rootPane, "Propiedad añadida con éxito", "Éxito", JOptionPane.PLAIN_MESSAGE);
-        dispose();
+        if (!Validacion.validarRut(rutVendedorStr)) {
+            Validacion.mostrarError("El RUT ingresado no es válido");
+            return;
+        }
+
+        int habitaciones = Integer.parseInt(habitacionesStr);
+        int precio = Integer.parseInt(precioStr);
+        int metrosCuadrados = Integer.parseInt(metrosStr);
         
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(rootPane, "Los campos de números deben contener valores válidos", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-    }
 
+        try {
+            // Crea un nueva propiedad y vendedor, los añade con el registro y actualiza la tabla de la ventana principal
+            Vendedor vendedor = new Vendedor();
+            vendedor.setNombre(nombreVendedor);
+            vendedor.setRut(rutVendedorStr);
+
+            Propiedad propiedad = new Propiedad();
+            propiedad.setNombrePropiedad(nombrePropiedad);
+            propiedad.setDireccion(direccion);
+            propiedad.setHabitaciones(habitaciones);
+            propiedad.setMetrosCuadrados(metrosCuadrados);
+            propiedad.setPrecio(precio);
+            propiedad.setVendedor(vendedor);
+            propiedad.setTipo(tipoPropiedad);
+
+            RegistroVendedor registroVendedor = new RegistroVendedor();
+            registroVendedor.agregarVendedor(vendedor);
+
+            RegistroPropiedades registroPropiedad = new RegistroPropiedades();
+            registroPropiedad.agregarPropiedad(propiedad);
+            ventPrincipal.actualizar();
+            Validacion.mostrarExito("Propiedad añadida con éxito");
+            dispose();
+
+        } catch (NumberFormatException ex) {
+            Validacion.mostrarError("Los campos de números deben contener valores válidos");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
 //</editor-fold>

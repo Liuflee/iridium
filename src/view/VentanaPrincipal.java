@@ -3,6 +3,8 @@ package view;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.RegistroPropiedades;
 import java.awt.Color;
@@ -98,6 +100,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mnuiDracula = new javax.swing.JMenuItem();
         mnuiLight = new javax.swing.JMenuItem();
         mnuiMonokai = new javax.swing.JMenuItem();
+        mnuiDarkPurple = new javax.swing.JMenuItem();
         mnuiDefault = new javax.swing.JMenuItem();
         mnuiCat = new javax.swing.JMenuItem();
 
@@ -249,6 +252,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(mnuiMonokai);
 
+        mnuiDarkPurple.setText("Dark Purple");
+        mnuiDarkPurple.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuiDarkPurpleActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuiDarkPurple);
+
         mnuiDefault.setText("Por Defecto");
         mnuiDefault.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,8 +349,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Esta funcion muestra los datos de la tabla y posteriormente los centra con CellRenderer
      */
     public void actualizar() {
-        int codPropiedad, nroHabitaciones, metrosCuadrados, precio, rutVendedor;
-        String nombrePropiedad, direccion, nombreVendedor, tipo;
+        int codPropiedad, nroHabitaciones, metrosCuadrados, precio;
+        String nombrePropiedad, direccion, nombreVendedor, tipo, rutVendedor;
 
         DefaultTableModel modelo = (DefaultTableModel) this.tablePropiedades.getModel();
 
@@ -504,8 +515,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuiMonokaiActionPerformed
 
     private void mnuiDefaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiDefaultActionPerformed
-        cambiarTema(new FlatDarkPurpleIJTheme());
+        cambiarTema(new FlatGitHubDarkIJTheme());
     }//GEN-LAST:event_mnuiDefaultActionPerformed
+
+    private void mnuiDarkPurpleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiDarkPurpleActionPerformed
+        cambiarTema(new FlatDarkPurpleIJTheme());
+    }//GEN-LAST:event_mnuiDarkPurpleActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         actualizar();
@@ -560,8 +575,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void mnuiCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuiCatActionPerformed
 
         Random random = new Random();
-        int maxX = this.getWidth() - 200; 
-        int maxY = this.getHeight() - 200; 
+        int maxX = this.getWidth() - 200;
+        int maxY = this.getHeight() - 200;
 
         // Mueve los botones y el campo de texto a posiciones aleatorias
         btnEliminarSelected.setLocation(random.nextInt(maxX), random.nextInt(maxY));
@@ -606,6 +621,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboxFiltradoActionPerformed
 
+
     //</editor-fold>
     // Inicio de la venta principal
     //<editor-fold defaultstate="collapsed" desc="Main">
@@ -614,7 +630,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //<editor-fold defaultstate="collapsed" desc="Look and Feel por defecto">
 
         try {
-            UIManager.setLookAndFeel(new FlatDarkPurpleIJTheme());
+            UIManager.setLookAndFeel(new FlatGitHubDarkIJTheme());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -677,6 +693,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniAgregarCasa;
     private javax.swing.JMenuItem mniAgregarDpto;
     private javax.swing.JMenuItem mnuiCat;
+    private javax.swing.JMenuItem mnuiDarkPurple;
     private javax.swing.JMenuItem mnuiDefault;
     private javax.swing.JMenuItem mnuiDracula;
     private javax.swing.JMenuItem mnuiEliminar;

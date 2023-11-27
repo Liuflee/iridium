@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2023 a las 03:55:20
+-- Tiempo de generación: 27-11-2023 a las 02:29:11
 -- Versión del servidor: 8.2.0
 -- Versión de PHP: 8.0.28
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `iridium`
 --
-CREATE DATABASE IF NOT EXISTS `iridium` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `iridium` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `iridium`;
 
 -- --------------------------------------------------------
@@ -32,12 +32,21 @@ USE `iridium`;
 CREATE TABLE `propiedades` (
   `cod_propiedad` int NOT NULL,
   `nombre_propiedad` varchar(50) DEFAULT NULL,
+  `tipo` varchar(30) NOT NULL,
   `nro_habitaciones` int DEFAULT NULL,
   `precio` int DEFAULT NULL,
   `metros_cuadrados` int DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
-  `rut_vendedor` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `rut_vendedor` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `propiedades`
+--
+
+INSERT INTO `propiedades` (`cod_propiedad`, `nombre_propiedad`, `tipo`, `nro_habitaciones`, `precio`, `metros_cuadrados`, `direccion`, `rut_vendedor`) VALUES
+(47, 'Condominio La Juana', 'Departamento', 2, 43234593, 50, 'Viana 323', '43874763-k'),
+(48, 'Casita Bonita', 'Casa', 4, 45430000, 150, 'Calle Falsa 123', '21272532-3');
 
 -- --------------------------------------------------------
 
@@ -46,21 +55,17 @@ CREATE TABLE `propiedades` (
 --
 
 CREATE TABLE `vendedor` (
-  `rut` int NOT NULL,
+  `rut` varchar(10) NOT NULL,
   `nombre_vendedor` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `vendedor`
 --
 
 INSERT INTO `vendedor` (`rut`, `nombre_vendedor`) VALUES
-(232, 'a'),
-(232312, 'a'),
-(232323, 'AAA'),
-(2332423, 'AAAAAAAAAA'),
-(2424212, 'aaaa'),
-(212725323, 'Anette');
+('21272532-3', 'Anette Villalon'),
+('43874763-k', 'Juanas');
 
 --
 -- Índices para tablas volcadas
@@ -87,7 +92,7 @@ ALTER TABLE `vendedor`
 -- AUTO_INCREMENT de la tabla `propiedades`
 --
 ALTER TABLE `propiedades`
-  MODIFY `cod_propiedad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cod_propiedad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Restricciones para tablas volcadas

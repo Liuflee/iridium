@@ -39,7 +39,7 @@ public class RegistroPropiedades {
             statement.setInt(3, propiedad.getPrecio());
             statement.setInt(4, propiedad.getMetrosCuadrados());
             statement.setString(5, propiedad.getDireccion());
-            statement.setInt(6, propiedad.getVendedor().getRut()); // Foranéa
+            statement.setString(6, propiedad.getVendedor().getRut()); // Foranéa
             statement.setString(7, propiedad.getTipo());
             statement.executeUpdate();
           
@@ -172,7 +172,7 @@ public class RegistroPropiedades {
             propiedad.setPrecio(rs.getInt(5));
             propiedad.setDireccion(rs.getString(6));
             vendedor.setNombre(rs.getString(7));
-            vendedor.setRut(rs.getInt(8));
+            vendedor.setRut(rs.getString(8));
             propiedad.setTipo(rs.getString(9));
             propiedad.setVendedor(vendedor);
 

@@ -7,6 +7,7 @@ import controller.RegistroVendedor;
 import javax.swing.JOptionPane;
 import model.Propiedad;
 import model.Vendedor;
+import validations.Validacion;
 
 //</editor-fold>
 /**
@@ -190,30 +191,39 @@ public class ModificarVentana extends javax.swing.JFrame {
      */
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        if (txtfNombrePropiedad.getText().isBlank() ||
-            txtfDireccion.getText().isBlank() ||
-            txtfHabitaciones.getText().isBlank() ||
-            txtfPrecio.getText().isBlank() ||
-            txtfMetros.getText().isBlank() ||
-            txtfNombreVendedor.getText().isBlank()) {
-            JOptionPane.showMessageDialog(rootPane, "Todos los campos son obligatorios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!txtfNombreVendedor.getText().matches("^[A-Za-z ]+$")) {
-            JOptionPane.showMessageDialog(rootPane, "El nombre solo puede contener letras y espacios", "Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
         try {
+            
+            
             String nombrePropiedad = txtfNombrePropiedad.getText();
             String direccion = txtfDireccion.getText();
-            int habitaciones = Integer.parseInt(txtfHabitaciones.getText());
-            int precio = Integer.parseInt(txtfPrecio.getText());
-            int metrosCuadrados = Integer.parseInt(txtfMetros.getText());
-            int codPropiedad = (int) datosFilas[0]; // Estos datos se obtienen de la tabla y no de los textfield, ya que no se modifican
-            int rutVendedor = (int) datosFilas[8]; 
+            String habitacionesStr = txtfHabitaciones.getText();
+            String precioStr = txtfPrecio.getText();
+            String metrosStr = txtfMetros.getText();
             String nombreVendedor = txtfNombreVendedor.getText();
+            
+            
+ 
+            if (Validacion.camposVacios(nombrePropiedad, direccion, habitacionesStr, precioStr, metrosStr, nombreVendedor)) {
+                Validacion.mostrarError("Todos los campos son obligatorios");
+                return;
+            }
+
+            if (!Validacion.nombreSoloLetras(nombreVendedor)) {
+                Validacion.mostrarError("El nombre solo puede contener letras y espacios");
+                return;
+            }
+
+            if (!Validacion.validarNumeros(habitacionesStr, precioStr, metrosStr)) {
+                Validacion.mostrarError("Los campos de números deben contener valores válidos");
+                return;
+            }
+            
+            int habitaciones = Integer.parseInt(habitacionesStr);
+            int precio = Integer.parseInt(precioStr);
+            int metrosCuadrados = Integer.parseInt(metrosStr);
+            int codPropiedad = (int) datosFilas[0]; // Estos datos se obtienen de la tabla y no de los textfield, ya que no se modifican
+            String rutVendedor = (String) datosFilas[8];
             
             Vendedor vendedor = new Vendedor();
             vendedor.setNombre(nombreVendedor);
@@ -243,7 +253,8 @@ public class ModificarVentana extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnModificarActionPerformed
-
+    
+    
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Componentes de Swing">
     

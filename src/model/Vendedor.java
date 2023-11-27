@@ -7,13 +7,13 @@ package model;
 public class Vendedor {
     //<editor-fold defaultstate="collapsed" desc="Atributos">
     private String nombre;
-    private int rut;
+    private String rut;
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Vendedor() {
     }
 
-    public Vendedor( String nombre, int rut) {
+    public Vendedor( String nombre, String rut) {
  
         this.nombre = nombre;
         this.rut = rut;
@@ -30,11 +30,11 @@ public class Vendedor {
         this.nombre = nombre;
     }
 
-    public int getRut() {
+    public String getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(String rut) {
         this.rut = rut;
     }
 //</editor-fold> 
